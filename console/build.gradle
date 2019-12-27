@@ -1,0 +1,71 @@
+plugins {
+    id "de.undercouch.download" version "4.0.0"
+    id "com.github.breadmoirai.github-release" version "2.2.9"
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+apply plugin: 'distribution'
+
+description 'storm3j command line tools'
+
+dependencies {
+    compile project(':codegen'),
+            project(':hosted-providers'),
+            project(':contracts')
+    runtime "org.slf4j:slf4j-nop:$slf4jVersion"  // prevent logging of the library to the console
+    testCompile project(path: ':crypto', configuration: 'testArtifacts'),
+    project(path: ':core', configuration: 'testArtifacts')
+}
+
+// Build command line library release with target distShadowZip
+mainClassName = 'org.storm3j.console.Runner'
+applicationName = 'storm3j'
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifact source: distShadowZip, extension: 'zip'
+                artifact source: distShadowTar, extension: 'tar'
+            }
+        }
+
+    }
+
+}
+
+task downloadArtifacts(type: Download) {
+    src([
+        "https://dl.bintray.com/storm3j/maven/org/storm3j/console/${version}/console-${version}.tar",
+        "https://dl.bintray.com/storm3j/maven/org/storm3j/console/${version}/console-${version}.tar.asc",
+        "https://dl.bintray.com/storm3j/maven/org/storm3j/console/${version}/console-${version}.zip",
+        "https://dl.bintray.com/storm3j/maven/org/storm3j/console/${version}/console-${version}.zip.asc"
+    ])
+    dest "${buildDir}/download"
+}
+
+task copyArtifiacts(type: Copy) {
+    dependsOn('downloadArtifacts')
+    from "${buildDir}/download"
+    into "${buildDir}/release"
+    rename "console-${version}.(.*)", "storm3j-${version}.\$1"
+}
+
+tasks.githubRelease.dependsOn('copyArtifiacts')
+
+githubRelease {
+    token System.getenv('GITHUB_PERSONAL_ACCESS_TOKEN') ? System.getenv('GITHUB_PERSONAL_ACCESS_TOKEN') : ""
+    owner 'storm3j'
+    repo 'storm3j'
+    tagName "v${version}"
+    body changelog {
+        options([
+            '--format=oneline',
+            '--abbrev-commit',
+            '--max-count=50'
+        ])
+    }
+    releaseAssets file("$buildDir/release").listFiles()
+    overwrite true
+}
