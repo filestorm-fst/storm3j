@@ -57,30 +57,6 @@ allprojects {
     apply plugin: 'jacoco'
 
     apply plugin: 'com.diffplug.gradle.spotless'
-    spotless {
-        java {
-            // This path needs to be relative to each project
-            target fileTree('.') {
-                include '**/src/*/java/**/*.java'
-                exclude '**/.gradle/**'
-                exclude '**/generated/**'
-            }
-            removeUnusedImports()
-            googleJavaFormat("1.7").aosp()
-            importOrder 'java', '', 'org.storm3j', '\\#'
-            trimTrailingWhitespace()
-            endWithNewline()
-            licenseHeaderFile "$rootDir/gradle/spotless.java.license"
-            paddedCell()
-        }
-        groovyGradle {
-            target '*.gradle'
-            greclipse().configFile(rootProject.file('gradle/formatter.properties'))
-            endWithNewline()
-            indentWithSpaces(4)
-            paddedCell()
-        }
-    }
 
     buildDir = "$rootDir/build"
 
@@ -154,97 +130,7 @@ configure(subprojects.findAll { it.name != 'integration-tests' }) {
         manualRelease = project.hasProperty('manualRelease') ? project.property('manualRelease').toBoolean() : false
     }
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-
-                artifact sourcesJar { classifier 'sources' }
-
-                artifact testJar { classifier 'tests' }
-
-                artifact javadocJar { classifier 'javadoc' }
-
-                pom {
-                    name = project.name
-                    description = project.description
-                    url = "https://github.com/storm3j/storm3j"
-                    licenses {
-                        license {
-                            name = "The Apache License, Version 2.0"
-                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                            distribution = "repo"
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = "conor10"
-                            name = "Conor Svensson"
-                            email = "conor10@gmail.com"
-                        }
-                    }
-                    scm {
-                        connection = "scm:git:https://github.com/storm3j/storm3j.git"
-                        developerConnection = "scm:git://github.com/storm3j/storm3j.git"
-                        url = "https://github.com/storm3j/storm3j.git"
-                    }
-                }
-            }
-        }
-    }
-
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-
-                onlyIf {
-                    // Only run if this is a manual release triggered by a user, or an automated release for snapshots.
-                    // We don't need to run this for automated releases.
-                    isSnapshotVersion && ossrhUsername != '' && ossrhPassword != '' && ossrhRepoUrl != ''
-                }
-
-                repository(url: ossrhRepoUrl) {
-                    authentication(
-                            userName: ossrhUsername,
-                            password: ossrhPassword
-                            )
-                }
-
-                pom.project {
-                    name 'storm3j'
-                    packaging 'jar'
-                    description project.description
-                    url 'https://storm3j.io'
-
-                    scm {
-                        connection 'scm:git:https://github.com/storm3j/storm3j.git'
-                        url 'https://github.com/storm3j/storm3j.git'
-                        developerConnection 'scm:git://github.com/storm3j/storm3j.git'
-                    }
-
-                    licenses {
-                        license {
-                            name 'The Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                            distribution 'repo'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id 'conor10'
-                            name 'Conor Svensson'
-                            email 'conor10@gmail.com'
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     bintray {
-        user = bintrayUser
-        key = bintrayKey
         publications = ['mavenJava']
         publish = true
         pkg {
@@ -253,69 +139,13 @@ configure(subprojects.findAll { it.name != 'integration-tests' }) {
             desc = project.description
             userOrg = 'storm3j'
             licenses = ['Apache-2.0']
-            issueTrackerUrl = 'https://github.com/storm3j/storm3j/issues'
-            vcsUrl = 'https://github.com/storm3j/storm3j.git'
-            websiteUrl = 'https://storm3j.io'
+            issueTrackerUrl = 'https://github.com/filestorm-fst/storm3j/issues'
+            vcsUrl = 'https://github.com/filestorm-fst/storm3j'
+            websiteUrl = 'http://filestorm.info/#/home'
             publicDownloadNumbers = true
-
-            version {
-                gpg {
-                    sign = true
-                    passphrase = bintrayGpgPassphrase
-                }
-                mavenCentralSync {
-                    sync = true
-                    user = ossrhUsername
-                    password = ossrhPassword
-                    close = '1'
-                }
-            }
         }
     }
 
-    task release {
-        dependsOn 'build'
-
-        doLast {
-            // Validates the user inputs before a release can be performed.
-            if (isSnapshotVersion) {
-                // Only need OSSRH details.
-                logger.lifecycle("About to perform {} snapshot release ...", manualRelease ? "a manual" : "an automated")
-
-                if (!ossrhUsername || !ossrhPassword || !ossrhRepoUrl) {
-                    throw new InvalidUserDataException("Required parameters missing:  'ossrhUsername', 'ossrhPassword', 'ossrhRepoUrl'")
-                }
-
-                logger.lifecycle(" - ossrhUsername={}", ossrhUsername)
-                logger.lifecycle(" - ossrhPassword={}", ossrhPassword ? "provided" : "not_provided")
-                logger.lifecycle(" - ossrhRepoUrl={}", ossrhRepoUrl)
-            } else {
-                // Release => Need OSSRH and bintray.
-                if (!ossrhUsername || !ossrhPassword || !ossrhRepoUrl) {
-                    throw new InvalidUserDataException("Required parameters missing:  'ossrhUsername', 'ossrhPassword', 'ossrhRepoUrl'")
-                }
-                if (!bintrayUser || !bintrayKey || !bintrayGpgPassphrase) {
-                    throw new InvalidUserDataException("Required parameters missing:  'bintrayUser', 'bintrayKey', 'bintrayGpgPassphrase'")
-                }
-                logger.lifecycle("About to perform {} full release ...", manualRelease ? "a manual" : "an automated")
-                logger.lifecycle(" - ossrhUsername={}", ossrhUsername)
-                logger.lifecycle(" - ossrhPassword={}", ossrhPassword ? "provided" : "not_provided")
-                logger.lifecycle(" - ossrhRepoUrl={}", ossrhRepoUrl)
-                logger.lifecycle(" - bintrayUser={}", bintrayUser)
-                logger.lifecycle(" - bintrayKey={}", bintrayKey ? "provided" : "not_provided")
-                logger.lifecycle(" - bintrayGpgPassphrase={}", bintrayGpgPassphrase ? "provided" : "not_provided")
-            }
-        }
-
-        // Snapshots go to nexus, non-snapshots go to bintray.
-        if (isSnapshotVersion) {
-            dependsOn 'uploadArchives'
-            tasks.findByName('uploadArchives').mustRunAfter 'build'
-        } else {
-            dependsOn 'bintrayUpload'
-            tasks.findByName('bintrayUpload').mustRunAfter 'build'
-        }
-    }
 
     task jacocoRootTestReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
         dependsOn = subprojects.test
@@ -334,11 +164,11 @@ configure(subprojects.findAll { it.name != 'integration-tests' }) {
         afterEvaluate {
             classDirectories = files(classDirectories.files.collect {
                 fileTree(dir: it,
-                exclude: [
-                    'org/storm3j/abi/datatypes/generated/**',
-                    'org/storm3j/tuples/generated/**',
-                    'org/storm3j/ens/contracts/generated/**'
-                ])
+                        exclude: [
+                                'org/storm3j/abi/datatypes/generated/**',
+                                'org/storm3j/tuples/generated/**',
+                                'org/storm3j/ens/contracts/generated/**'
+                        ])
             })
         }
     }
