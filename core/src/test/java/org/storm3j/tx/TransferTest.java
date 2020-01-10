@@ -39,7 +39,7 @@ public class TransferTest extends ManagedTransactionTester {
     @Test
     public void testSendFunds() throws Exception {
         assertThat(
-                sendFunds(SampleKeys.CREDENTIALS, ADDRESS, BigDecimal.TEN, Convert.Unit.ETHER),
+                sendFunds(SampleKeys.CREDENTIALS, ADDRESS, BigDecimal.TEN, Convert.Unit.FST),
                 is(transactionReceipt));
     }
 

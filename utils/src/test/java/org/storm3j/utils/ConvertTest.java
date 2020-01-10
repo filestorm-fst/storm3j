@@ -39,7 +39,7 @@ public class ConvertTest {
                 Convert.fromWei("21000000000000", Convert.Unit.FINNEY),
                 is(new BigDecimal("0.021")));
         assertThat(
-                Convert.fromWei("21000000000000", Convert.Unit.ETHER),
+                Convert.fromWei("21000000000000", Convert.Unit.FST),
                 is(new BigDecimal("0.000021")));
         assertThat(
                 Convert.fromWei("21000000000000", Convert.Unit.KETHER),
@@ -62,7 +62,7 @@ public class ConvertTest {
         assertThat(
                 Convert.toWei("21", Convert.Unit.FINNEY), is(new BigDecimal("21000000000000000")));
         assertThat(
-                Convert.toWei("21", Convert.Unit.ETHER),
+                Convert.toWei("21", Convert.Unit.FST),
                 is(new BigDecimal("21000000000000000000")));
         assertThat(
                 Convert.toWei("21", Convert.Unit.KETHER),
@@ -77,8 +77,8 @@ public class ConvertTest {
 
     @Test
     public void testUnit() {
-        assertThat(Convert.Unit.fromString("ether"), is(Convert.Unit.ETHER));
-        assertThat(Convert.Unit.fromString("ETHER"), is(Convert.Unit.ETHER));
+        assertThat(Convert.Unit.fromString("ether"), is(Convert.Unit.FST));
+        assertThat(Convert.Unit.fromString("ETHER"), is(Convert.Unit.FST));
         assertThat(Convert.Unit.fromString("wei"), is(Convert.Unit.WEI));
     }
 }

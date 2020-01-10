@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.storm3j.protocol.core.Request;
-import org.storm3j.protocol.core.methods.response.Web3ClientVersion;
+import org.storm3j.protocol.core.methods.response.Storm3ClientVersion;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
@@ -141,6 +141,6 @@ public class UnixDomainSocketTest {
                         return unixDomainSocket;
                     }
                 };
-        ipcService.send(new Request(), Web3ClientVersion.class);
+        ipcService.send(new Request(), Storm3ClientVersion.class);
     }
 }

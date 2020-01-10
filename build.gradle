@@ -16,7 +16,10 @@ buildscript {
     ext.logbackVersion = '1.2.3'
     ext.mockitoVersion = '1.10.19'
 
-    repositories { mavenCentral() }
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/central/' }
+        mavenCentral() }
 
     dependencies {
         classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3'
@@ -29,8 +32,8 @@ plugins {
     id 'com.diffplug.gradle.spotless' version '3.23.1'
 
     // Required for JFrog Artifactory repository
-    id 'jacoco'
-    id 'maven-publish'
+    id "jacoco"
+    id "maven-publish"
 
     // Required for Maven Nexus repository
     id 'maven'
@@ -49,7 +52,6 @@ apply plugin: 'maven-publish'
 description 'storm3j base project'
 
 allprojects {
-
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -60,7 +62,10 @@ allprojects {
 
     buildDir = "$rootDir/build"
 
-    repositories { mavenCentral() }
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/central/' }
+        mavenCentral() }
 
     // We don't want any compiler warnings
     compileJava {
@@ -130,46 +135,64 @@ configure(subprojects.findAll { it.name != 'integration-tests' }) {
         manualRelease = project.hasProperty('manualRelease') ? project.property('manualRelease').toBoolean() : false
     }
 
-    bintray {
-        publications = ['mavenJava']
-        publish = true
-        pkg {
-            repo = 'maven'
-            name = 'org.storm3j'
-            desc = project.description
-            userOrg = 'storm3j'
-            licenses = ['Apache-2.0']
-            issueTrackerUrl = 'https://github.com/filestorm-fst/storm3j/issues'
-            vcsUrl = 'https://github.com/filestorm-fst/storm3j'
-            websiteUrl = 'http://filestorm.info/#/home'
-            publicDownloadNumbers = true
+    publishing {
+        publications {
+
+        }
+
+
+        repositories {
+            mavenLocal()
         }
     }
 
+    uploadArchives {
+        repositories {
+            mavenDeployer {
 
-    task jacocoRootTestReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
-        dependsOn = subprojects.test
-        additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
-        sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-        classDirectories = files(subprojects.sourceSets.main.output)
-        executionData = files(subprojects.jacocoTestReport.executionData)
-        reports { xml.enabled = true }
+                onlyIf {
+                    // Only run if this is a manual release triggered by a user, or an automated release for snapshots.
+                    // We don't need to run this for automated releases.
+                    isSnapshotVersion && ossrhUsername != '' && ossrhPassword != '' && ossrhRepoUrl != ''
+                }
 
-        onlyIf = { true }
+                repository(url: ossrhRepoUrl) {
+                    authentication(
+                            userName: ossrhUsername,
+                            password: ossrhPassword
+                    )
+                }
 
-        doFirst {
-            executionData = files(executionData.findAll { it.exists() })
-        }
+                pom.project {
+                    name 'storm3j'
+                    packaging 'jar'
+                    description project.description
+                    url 'https://storm3j.io'
 
-        afterEvaluate {
-            classDirectories = files(classDirectories.files.collect {
-                fileTree(dir: it,
-                        exclude: [
-                                'org/storm3j/abi/datatypes/generated/**',
-                                'org/storm3j/tuples/generated/**',
-                                'org/storm3j/ens/contracts/generated/**'
-                        ])
-            })
+                    scm {
+                        connection 'scm:git:https://github.com/storm3j/storm3j.git'
+                        url 'https://github.com/storm3j/storm3j.git'
+                        developerConnection 'scm:git://github.com/storm3j/storm3j.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'conor10'
+                            name 'Conor Svensson'
+                            email 'conor10@gmail.com'
+                        }
+                    }
+                }
+            }
         }
     }
+
 }

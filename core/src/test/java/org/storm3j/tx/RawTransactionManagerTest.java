@@ -31,6 +31,6 @@ public class RawTransactionManagerTest extends ManagedTransactionTester {
         TransactionManager transactionManager =
                 new RawTransactionManager(storm3j, SampleKeys.CREDENTIALS);
         Transfer transfer = new Transfer(storm3j, transactionManager);
-        transfer.sendFunds(ADDRESS, BigDecimal.ONE, Convert.Unit.ETHER).send();
+        transfer.sendFunds(ADDRESS, BigDecimal.ONE, Convert.Unit.FST).send();
     }
 }

@@ -20,8 +20,8 @@ import org.junit.Test;
 
 import org.storm3j.abi.TypeEncoder;
 import org.storm3j.abi.datatypes.Utf8String;
-import org.storm3j.protocol.storm3j;
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3jService;
 import org.storm3j.protocol.core.Request;
 import org.storm3j.protocol.core.methods.response.FstBlock;
 import org.storm3j.protocol.core.methods.response.FstCall;
@@ -43,14 +43,14 @@ import static org.storm3j.ens.EnsResolver.isValidEnsName;
 
 public class EnsResolverTest {
 
-    private storm3j storm3j;
-    private storm3jService storm3jService;
+    private Storm3j storm3j;
+    private Storm3jService storm3jService;
     private EnsResolver ensResolver;
 
     @Before
     public void setUp() {
-        storm3jService = mock(storm3jService.class);
-        storm3j = storm3j.build(storm3jService);
+        storm3jService = mock(Storm3jService.class);
+        storm3j = Storm3j.build(storm3jService);
         ensResolver = new EnsResolver(storm3j);
     }
 

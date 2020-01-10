@@ -18,8 +18,8 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import org.storm3j.protocol.RequestTester;
-import org.storm3j.protocol.storm3j;
-import org.storm3j.protocol.core.methods.request.EthFilter;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.core.methods.request.FstFilter;
 import org.storm3j.protocol.core.methods.request.ShhFilter;
 import org.storm3j.protocol.core.methods.request.ShhPost;
 import org.storm3j.protocol.core.methods.request.Transaction;
@@ -28,16 +28,16 @@ import org.storm3j.utils.Numeric;
 
 public class RequestTest extends RequestTester {
 
-    private storm3j storm3j;
+    private Storm3j storm3j;
 
     @Override
     protected void initWeb3Client(HttpService httpService) {
-        storm3j = storm3j.build(httpService);
+        storm3j = Storm3j.build(httpService);
     }
 
     @Test
     public void testWeb3ClientVersion() throws Exception {
-        storm3j.web3ClientVersion().send();
+        storm3j.storm3ClientVersion().send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"web3_clientVersion\",\"params\":[],\"id\":1}");
@@ -45,7 +45,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testWeb3Sha3() throws Exception {
-        storm3j.web3Sha3("0x68656c6c6f20776f726c64").send();
+        storm3j.storm3Sha3("0x68656c6c6f20776f726c64").send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"web3_sha3\","
@@ -75,7 +75,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthProtocolVersion() throws Exception {
-        storm3j.ethProtocolVersion().send();
+        storm3j.fstProtocolVersion().send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_protocolVersion\",\"params\":[],\"id\":1}");
@@ -83,56 +83,56 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthSyncing() throws Exception {
-        storm3j.ethSyncing().send();
+        storm3j.fstSyncing().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_syncing\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthCoinbase() throws Exception {
-        storm3j.ethCoinbase().send();
+        storm3j.fstCoinbase().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_coinbase\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthMining() throws Exception {
-        storm3j.ethMining().send();
+        storm3j.fstMining().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_mining\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthHashrate() throws Exception {
-        storm3j.ethHashrate().send();
+        storm3j.fstHashrate().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_hashrate\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthGasPrice() throws Exception {
-        storm3j.ethGasPrice().send();
+        storm3j.fstGasPrice().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_gasPrice\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthAccounts() throws Exception {
-        storm3j.ethAccounts().send();
+        storm3j.fstAccounts().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_accounts\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthBlockNumber() throws Exception {
-        storm3j.ethBlockNumber().send();
+        storm3j.fstBlockNumber().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_blockNumber\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthGetBalance() throws Exception {
-        storm3j.ethGetBalance(
+        storm3j.fstGetBalance(
                         "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
                         DefaultBlockParameterName.LATEST)
                 .send();
@@ -145,7 +145,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetStorageAt() throws Exception {
-        storm3j.ethGetStorageAt(
+        storm3j.fstGetStorageAt(
                         "0x295a70b2de5e3953354a6a8344e616ed314d7251",
                         BigInteger.ZERO,
                         DefaultBlockParameterName.LATEST)
@@ -159,7 +159,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetTransactionCount() throws Exception {
-        storm3j.ethGetTransactionCount(
+        storm3j.fstGetTransactionCount(
                         "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
                         DefaultBlockParameterName.LATEST)
                 .send();
@@ -172,7 +172,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetBlockTransactionCountByHash() throws Exception {
-        storm3j.ethGetBlockTransactionCountByHash(
+        storm3j.fstGetBlockTransactionCountByHash(
                         "0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238")
                 .send();
 
@@ -182,7 +182,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetBlockTransactionCountByNumber() throws Exception {
-        storm3j.ethGetBlockTransactionCountByNumber(
+        storm3j.fstGetBlockTransactionCountByNumber(
                         DefaultBlockParameter.valueOf(Numeric.toBigInt("0xe8")))
                 .send();
 
@@ -193,7 +193,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetUncleCountByBlockHash() throws Exception {
-        storm3j.ethGetUncleCountByBlockHash(
+        storm3j.fstGetUncleCountByBlockHash(
                         "0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238")
                 .send();
 
@@ -203,7 +203,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetUncleCountByBlockNumber() throws Exception {
-        storm3j.ethGetUncleCountByBlockNumber(DefaultBlockParameter.valueOf(Numeric.toBigInt("0xe8")))
+        storm3j.fstGetUncleCountByBlockNumber(DefaultBlockParameter.valueOf(Numeric.toBigInt("0xe8")))
                 .send();
 
         verifyResult(
@@ -213,7 +213,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetCode() throws Exception {
-        storm3j.ethGetCode(
+        storm3j.fstGetCode(
                         "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
                         DefaultBlockParameter.valueOf(Numeric.toBigInt("0x2")))
                 .send();
@@ -225,7 +225,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthSign() throws Exception {
-        storm3j.ethSign(
+        storm3j.fstSign(
                         "0x8a3106a3e50576d4b6794a0e74d3bb5f8c9acaab",
                         "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
                 .send();
@@ -239,7 +239,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthSendTransaction() throws Exception {
-        storm3j.ethSendTransaction(
+        storm3j.fstSendTransaction(
                         new Transaction(
                                 "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
                                 BigInteger.ONE,
@@ -257,7 +257,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthSendRawTransaction() throws Exception {
-        storm3j.ethSendRawTransaction(
+        storm3j.fstSendRawTransaction(
                         "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f"
                                 + "072445675058bb8eb970870f072445675")
                 .send();
@@ -268,7 +268,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthCall() throws Exception {
-        storm3j.ethCall(
+        storm3j.fstCall(
                         Transaction.createFstCallTransaction(
                                 "0xa70e8dd61c5d32be8058bb8eb970870f07233155",
                                 "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
@@ -285,7 +285,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthEstimateGas() throws Exception {
-        storm3j.ethEstimateGas(
+        storm3j.fstEstimateGas(
                         Transaction.createFstCallTransaction(
                                 "0xa70e8dd61c5d32be8058bb8eb970870f07233155",
                                 "0x52b93c80364dc2dd4444c146d73b9836bbbb2b3f",
@@ -301,7 +301,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthEstimateGasContractCreation() throws Exception {
-        storm3j.ethEstimateGas(
+        storm3j.fstEstimateGas(
                         Transaction.createContractTransaction(
                                 "0x52b93c80364dc2dd4444c146d73b9836bbbb2b3f",
                                 BigInteger.ONE,
@@ -317,7 +317,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetBlockByHash() throws Exception {
-        storm3j.ethGetBlockByHash(
+        storm3j.fstGetBlockByHash(
                         "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331", true)
                 .send();
 
@@ -329,7 +329,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetBlockByNumber() throws Exception {
-        storm3j.ethGetBlockByNumber(DefaultBlockParameter.valueOf(Numeric.toBigInt("0x1b4")), true)
+        storm3j.fstGetBlockByNumber(DefaultBlockParameter.valueOf(Numeric.toBigInt("0x1b4")), true)
                 .send();
 
         verifyResult(
@@ -339,7 +339,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetTransactionByHash() throws Exception {
-        storm3j.ethGetTransactionByHash(
+        storm3j.fstGetTransactionByHash(
                         "0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238")
                 .send();
 
@@ -351,7 +351,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetTransactionByBlockHashAndIndex() throws Exception {
-        storm3j.ethGetTransactionByBlockHashAndIndex(
+        storm3j.fstGetTransactionByBlockHashAndIndex(
                         "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                         BigInteger.ZERO)
                 .send();
@@ -362,7 +362,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetTransactionByBlockNumberAndIndex() throws Exception {
-        storm3j.ethGetTransactionByBlockNumberAndIndex(
+        storm3j.fstGetTransactionByBlockNumberAndIndex(
                         DefaultBlockParameter.valueOf(Numeric.toBigInt("0x29c")), BigInteger.ZERO)
                 .send();
 
@@ -373,7 +373,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetTransactionReceipt() throws Exception {
-        storm3j.ethGetTransactionReceipt(
+        storm3j.fstGetTransactionReceipt(
                         "0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238")
                 .send();
 
@@ -385,7 +385,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetUncleByBlockHashAndIndex() throws Exception {
-        storm3j.ethGetUncleByBlockHashAndIndex(
+        storm3j.fstGetUncleByBlockHashAndIndex(
                         "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
                         BigInteger.ZERO)
                 .send();
@@ -399,7 +399,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetUncleByBlockNumberAndIndex() throws Exception {
-        storm3j.ethGetUncleByBlockNumberAndIndex(
+        storm3j.fstGetUncleByBlockNumberAndIndex(
                         DefaultBlockParameter.valueOf(Numeric.toBigInt("0x29c")), BigInteger.ZERO)
                 .send();
 
@@ -410,7 +410,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetCompilers() throws Exception {
-        storm3j.ethGetCompilers().send();
+        storm3j.fstGetCompilers().send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getCompilers\","
@@ -419,7 +419,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthCompileSolidity() throws Exception {
-        storm3j.ethCompileSolidity(
+        storm3j.fstCompileSolidity(
                         "contract test { function multiply(uint a) returns(uint d) {   return a * 7;   } }")
                 .send();
 
@@ -431,7 +431,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthCompileLLL() throws Exception {
-        storm3j.ethCompileLLL("(returnlll (suicide (caller)))").send();
+        storm3j.fstCompileLLL("(returnlll (suicide (caller)))").send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_compileLLL\","
@@ -440,7 +440,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthCompileSerpent() throws Exception {
-        storm3j.ethCompileSerpent("/* some serpent */").send();
+        storm3j.fstCompileSerpent("/* some serpent */").send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_compileSerpent\","
@@ -449,9 +449,9 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthNewFilter() throws Exception {
-        EthFilter ethFilter = new EthFilter().addSingleTopic("0x12341234");
+        FstFilter ethFilter = new FstFilter().addSingleTopic("0x12341234");
 
-        storm3j.ethNewFilter(ethFilter).send();
+        storm3j.fstNewFilter(ethFilter).send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_newFilter\","
@@ -460,7 +460,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthNewBlockFilter() throws Exception {
-        storm3j.ethNewBlockFilter().send();
+        storm3j.fstNewBlockFilter().send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_newBlockFilter\","
@@ -469,7 +469,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthNewPendingTransactionFilter() throws Exception {
-        storm3j.ethNewPendingTransactionFilter().send();
+        storm3j.fstNewPendingTransactionFilter().send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_newPendingTransactionFilter\","
@@ -478,7 +478,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthUninstallFilter() throws Exception {
-        storm3j.ethUninstallFilter(Numeric.toBigInt("0xb")).send();
+        storm3j.fstUninstallFilter(Numeric.toBigInt("0xb")).send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_uninstallFilter\","
@@ -487,7 +487,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetFilterChanges() throws Exception {
-        storm3j.ethGetFilterChanges(Numeric.toBigInt("0x16")).send();
+        storm3j.fstGetFilterChanges(Numeric.toBigInt("0x16")).send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getFilterChanges\","
@@ -496,7 +496,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetFilterLogs() throws Exception {
-        storm3j.ethGetFilterLogs(Numeric.toBigInt("0x16")).send();
+        storm3j.fstGetFilterLogs(Numeric.toBigInt("0x16")).send();
 
         verifyResult(
                 "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getFilterLogs\","
@@ -505,8 +505,8 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetLogs() throws Exception {
-        storm3j.ethGetLogs(
-                        new EthFilter()
+        storm3j.fstGetLogs(
+                        new FstFilter()
                                 .addSingleTopic(
                                         "0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"))
                 .send();
@@ -520,8 +520,8 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetLogsWithNumericBlockRange() throws Exception {
-        storm3j.ethGetLogs(
-                        new EthFilter(
+        storm3j.fstGetLogs(
+                        new FstFilter(
                                 DefaultBlockParameter.valueOf(Numeric.toBigInt("0xe8")),
                                 DefaultBlockParameter.valueOf("latest"),
                                 ""))
@@ -535,14 +535,14 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthGetWork() throws Exception {
-        storm3j.ethGetWork().send();
+        storm3j.fstGetWork().send();
 
         verifyResult("{\"jsonrpc\":\"2.0\",\"method\":\"eth_getWork\",\"params\":[],\"id\":1}");
     }
 
     @Test
     public void testEthSubmitWork() throws Exception {
-        storm3j.ethSubmitWork(
+        storm3j.fstSubmitWork(
                         "0x0000000000000001",
                         "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
                         "0xD1FE5700000000000000000000000000D1FE5700000000000000000000000000")
@@ -558,7 +558,7 @@ public class RequestTest extends RequestTester {
 
     @Test
     public void testEthSubmitHashRate() throws Exception {
-        storm3j.ethSubmitHashrate(
+        storm3j.fstSubmitHashrate(
                         "0x0000000000000000000000000000000000000000000000000000000000500000",
                         "0x59daa26581d0acd1fce254fb7e85952f4c09d0915afd33d3886cd914bc7d283c")
                 .send();

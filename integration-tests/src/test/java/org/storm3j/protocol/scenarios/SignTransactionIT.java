@@ -49,7 +49,7 @@ public class SignTransactionIT extends Scenario {
     }
 
     private static RawTransaction createTransaction() {
-        BigInteger value = Convert.toWei("1", Convert.Unit.ETHER).toBigInteger();
+        BigInteger value = Convert.toWei("1", Convert.Unit.FST).toBigInteger();
 
         return RawTransaction.createEtherTransaction(
                 BigInteger.valueOf(1048587),

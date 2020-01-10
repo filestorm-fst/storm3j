@@ -86,10 +86,10 @@ public class BesuPrivacyQuickstartIntegrationTest {
 
     @Test
     public void testConnection() throws IOException {
-        assertThat(nodeAlice.storm3ClientVersion().send().getWeb3ClientVersion(), is(CLIENT_VERSION));
-        assertThat(nodeBob.storm3ClientVersion().send().getWeb3ClientVersion(), is(CLIENT_VERSION));
+        assertThat(nodeAlice.storm3ClientVersion().send().getStorm3ClientVersion(), is(CLIENT_VERSION));
+        assertThat(nodeBob.storm3ClientVersion().send().getStorm3ClientVersion(), is(CLIENT_VERSION));
         assertThat(
-                nodeCharlie.storm3ClientVersion().send().getWeb3ClientVersion(), is(CLIENT_VERSION));
+                nodeCharlie.storm3ClientVersion().send().getStorm3ClientVersion(), is(CLIENT_VERSION));
     }
 
     @Test

@@ -18,7 +18,8 @@ import org.junit.Before;
 
 import org.storm3j.crypto.Credentials;
 import org.storm3j.crypto.SampleKeys;
-import org.storm3j.protocol.storm3j;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3j;
 import org.storm3j.protocol.core.DefaultBlockParameterName;
 import org.storm3j.protocol.core.Request;
 import org.storm3j.protocol.core.methods.response.*;
@@ -33,12 +34,12 @@ public abstract class ManagedTransactionTester {
 
     static final String ADDRESS = "0x3d6cb163f7c72d20b0fcd6baae5889329d138a4a";
     static final String TRANSACTION_HASH = "0xHASH";
-    protected storm3j storm3j;
+    protected Storm3j storm3j;
     protected TxHashVerifier txHashVerifier;
 
     @Before
     public void setUp() throws Exception {
-        storm3j = mock(storm3j.class);
+        storm3j = mock(Storm3j.class);
         txHashVerifier = mock(TxHashVerifier.class);
         when(txHashVerifier.verify(any(), any())).thenReturn(true);
     }
@@ -70,7 +71,7 @@ public abstract class ManagedTransactionTester {
 
         Request<?, FstGetTransactionCount> transactionCountRequest = mock(Request.class);
         when(transactionCountRequest.send()).thenReturn(fstGetTransactionCount);
-        when(storm3j.ethGetTransactionCount(SampleKeys.ADDRESS, DefaultBlockParameterName.PENDING))
+        when(storm3j.fstGetTransactionCount(SampleKeys.ADDRESS, DefaultBlockParameterName.PENDING))
                 .thenReturn((Request) transactionCountRequest);
     }
 
@@ -81,7 +82,7 @@ public abstract class ManagedTransactionTester {
 
         Request<?, FstSendTransaction> rawTransactionRequest = mock(Request.class);
         when(rawTransactionRequest.send()).thenReturn(fstSendTransaction);
-        when(storm3j.ethSendRawTransaction(any(String.class)))
+        when(storm3j.fstSendRawTransaction(any(String.class)))
                 .thenReturn((Request) rawTransactionRequest);
     }
 
@@ -92,7 +93,7 @@ public abstract class ManagedTransactionTester {
 
         Request<?, FstGetTransactionReceipt> getTransactionReceiptRequest = mock(Request.class);
         when(getTransactionReceiptRequest.send()).thenReturn(fstGetTransactionReceipt);
-        when(storm3j.ethGetTransactionReceipt(TRANSACTION_HASH))
+        when(storm3j.fstGetTransactionReceipt(TRANSACTION_HASH))
                 .thenReturn((Request) getTransactionReceiptRequest);
     }
 
@@ -108,7 +109,7 @@ public abstract class ManagedTransactionTester {
 
         Request<?, FstGasPrice> gasPriceRequest = mock(Request.class);
         when(gasPriceRequest.send()).thenReturn(fstGasPrice);
-        when(storm3j.ethGasPrice()).thenReturn((Request) gasPriceRequest);
+        when(storm3j.fstGasPrice()).thenReturn((Request) gasPriceRequest);
 
         return transactionReceipt;
     }

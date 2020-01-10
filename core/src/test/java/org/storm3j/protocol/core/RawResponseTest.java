@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import org.storm3j.protocol.ResponseTester;
 import org.storm3j.protocol.core.methods.response.FstBlock;
-import org.storm3j.protocol.core.methods.response.Web3ClientVersion;
+import org.storm3j.protocol.core.methods.response.Storm3ClientVersion;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -38,7 +38,7 @@ public class RawResponseTest extends ResponseTester {
     @Test
     public void testRawResponseEnabled() {
         configureWeb3Service(true);
-        final Web3ClientVersion web3ClientVersion = deserialiseWeb3ClientVersionResponse();
+        final Storm3ClientVersion web3ClientVersion = deserialiseWeb3ClientVersionResponse();
         assertThat(web3ClientVersion.getRawResponse(), is(RAW_RESPONSE));
     }
 
@@ -56,13 +56,13 @@ public class RawResponseTest extends ResponseTester {
     @Test
     public void testRawResponseDisabled() {
         configureWeb3Service(false);
-        final Web3ClientVersion web3ClientVersion = deserialiseWeb3ClientVersionResponse();
+        final Storm3ClientVersion web3ClientVersion = deserialiseWeb3ClientVersionResponse();
         assertThat(web3ClientVersion.getRawResponse(), nullValue());
     }
 
-    private Web3ClientVersion deserialiseWeb3ClientVersionResponse() {
+    private Storm3ClientVersion deserialiseWeb3ClientVersionResponse() {
         buildResponse(RAW_RESPONSE);
 
-        return deserialiseResponse(Web3ClientVersion.class);
+        return deserialiseResponse(Storm3ClientVersion.class);
     }
 }

@@ -17,8 +17,9 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
-import org.storm3j.protocol.storm3j;
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3jService;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3jService;
 import org.storm3j.protocol.core.DefaultBlockParameter;
 import org.storm3j.protocol.core.methods.response.FstCall;
 
@@ -30,8 +31,8 @@ import static org.mockito.Mockito.when;
 
 public class ReadonlyTransactionManagerTest {
 
-    storm3jService service = mock(storm3jService.class);
-    storm3j storm3j = storm3j.build(service);
+    Storm3jService service = mock(Storm3jService.class);
+    Storm3j storm3j = Storm3j.build(service);
     DefaultBlockParameter defaultBlockParameter = mock(DefaultBlockParameter.class);
     FstCall response = mock(FstCall.class);
 

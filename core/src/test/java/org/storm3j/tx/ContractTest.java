@@ -37,7 +37,7 @@ import org.storm3j.abi.datatypes.Utf8String;
 import org.storm3j.abi.datatypes.generated.Uint256;
 import org.storm3j.crypto.Credentials;
 import org.storm3j.crypto.SampleKeys;
-import org.storm3j.protocol.storm3j;
+import org.storm3j.protocol.Storm3j;
 import org.storm3j.protocol.core.DefaultBlockParameterName;
 import org.storm3j.protocol.core.RemoteCall;
 import org.storm3j.protocol.core.Request;
@@ -259,7 +259,7 @@ public class ContractTest extends ManagedTransactionTester {
         Request<?, FstCall> request = mock(Request.class);
         when(request.send()).thenReturn(fstCall);
 
-        when(storm3j.ethCall(any(Transaction.class), eq(DefaultBlockParameterName.LATEST)))
+        when(storm3j.fstCall(any(Transaction.class), eq(DefaultBlockParameterName.LATEST)))
                 .thenReturn((Request) request);
     }
 
@@ -354,7 +354,7 @@ public class ContractTest extends ManagedTransactionTester {
 
         Request<?, FstSendTransaction> rawTransactionRequest = mock(Request.class);
         when(rawTransactionRequest.sendAsync()).thenReturn(Async.run(() -> fstSendTransaction));
-        when(storm3j.ethSendRawTransaction(any(String.class)))
+        when(storm3j.fstSendRawTransaction(any(String.class)))
                 .thenReturn((Request) rawTransactionRequest);
 
         testErrorScenario();
@@ -420,7 +420,7 @@ public class ContractTest extends ManagedTransactionTester {
         Request<?, FstGetTransactionReceipt> getTransactionReceiptRequest = mock(Request.class);
         when(getTransactionReceiptRequest.sendAsync())
                 .thenReturn(Async.run(() -> fstGetTransactionReceipt));
-        when(storm3j.ethGetTransactionReceipt(TRANSACTION_HASH))
+        when(storm3j.fstGetTransactionReceipt(TRANSACTION_HASH))
                 .thenReturn((Request) getTransactionReceiptRequest);
 
         testErrorScenario();
@@ -522,14 +522,14 @@ public class ContractTest extends ManagedTransactionTester {
 
         Request<?, FstGetCode> ethGetCodeRequest = mock(Request.class);
         when(ethGetCodeRequest.send()).thenReturn(fstGetCode);
-        when(storm3j.ethGetCode(ADDRESS, DefaultBlockParameterName.LATEST))
+        when(storm3j.fstGetCode(ADDRESS, DefaultBlockParameterName.LATEST))
                 .thenReturn((Request) ethGetCodeRequest);
     }
 
     private static class TestContract extends Contract {
         public TestContract(
                 String contractAddress,
-                storm3j storm3j,
+                Storm3j storm3j,
                 Credentials credentials,
                 BigInteger gasPrice,
                 BigInteger gasLimit) {
@@ -538,7 +538,7 @@ public class ContractTest extends ManagedTransactionTester {
 
         public TestContract(
                 String contractAddress,
-                storm3j storm3j,
+                Storm3j storm3j,
                 TransactionManager transactionManager,
                 ContractGasProvider gasProvider) {
             this(TEST_CONTRACT_BINARY, contractAddress, storm3j, transactionManager, gasProvider);
@@ -547,7 +547,7 @@ public class ContractTest extends ManagedTransactionTester {
         public TestContract(
                 String binary,
                 String contractAddress,
-                storm3j storm3j,
+                Storm3j storm3j,
                 TransactionManager transactionManager,
                 ContractGasProvider gasProvider) {
             super(binary, contractAddress, storm3j, transactionManager, gasProvider);

@@ -29,7 +29,8 @@ import org.junit.Before;
 
 import org.storm3j.protocol.ObjectMapperFactory;
 import org.storm3j.protocol.Storm3j;
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3jService;
+import org.storm3j.protocol.Storm3jService;
 import org.storm3j.protocol.core.Request;
 import org.storm3j.protocol.core.methods.response.FstFilter;
 import org.storm3j.protocol.core.methods.response.FstLog;
@@ -46,7 +47,7 @@ import static org.mockito.Mockito.when;
 
 public abstract class FilterTester {
 
-    private storm3jService storm3jService;
+    private Storm3jService storm3jService;
     Storm3j storm3j;
 
     final ObjectMapper objectMapper = ObjectMapperFactory.getObjectMapper();
@@ -55,7 +56,7 @@ public abstract class FilterTester {
 
     @Before
     public void setUp() {
-        storm3jService = mock(storm3jService.class);
+        storm3jService = mock(Storm3jService.class);
         storm3j = Storm3j.build(storm3jService, 1000, scheduledExecutorService);
     }
 

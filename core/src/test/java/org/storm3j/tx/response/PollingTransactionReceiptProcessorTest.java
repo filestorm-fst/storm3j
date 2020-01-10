@@ -17,7 +17,8 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.storm3j.protocol.storm3j;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3j;
 import org.storm3j.protocol.core.Request;
 import org.storm3j.protocol.core.Response;
 import org.storm3j.protocol.core.methods.response.FstGetTransactionReceipt;
@@ -35,14 +36,14 @@ import static org.mockito.Mockito.when;
 
 public class PollingTransactionReceiptProcessorTest {
     private static final String TRANSACTION_HASH = "0x00";
-    private storm3j storm3j;
+    private Storm3j storm3j;
     private long sleepDuration;
     private int attempts;
     private PollingTransactionReceiptProcessor processor;
 
     @Before
     public void setUp() {
-        storm3j = mock(storm3j.class);
+        storm3j = mock(Storm3j.class);
         sleepDuration = 100;
         attempts = 3;
         processor = new PollingTransactionReceiptProcessor(storm3j, sleepDuration, attempts);
@@ -53,7 +54,7 @@ public class PollingTransactionReceiptProcessorTest {
         TransactionReceipt transactionReceipt = new TransactionReceipt();
         doReturn(requestReturning(response(transactionReceipt)))
                 .when(storm3j)
-                .ethGetTransactionReceipt(TRANSACTION_HASH);
+                .fstGetTransactionReceipt(TRANSACTION_HASH);
 
         TransactionReceipt receipt = processor.waitForTransactionReceipt(TRANSACTION_HASH);
 
@@ -64,7 +65,7 @@ public class PollingTransactionReceiptProcessorTest {
     public void throwsTransactionExceptionWhenReceiptIsNotAvailableInTime() throws Exception {
         doReturn(requestReturning(response(null)))
                 .when(storm3j)
-                .ethGetTransactionReceipt(TRANSACTION_HASH);
+                .fstGetTransactionReceipt(TRANSACTION_HASH);
 
         try {
             processor.waitForTransactionReceipt(TRANSACTION_HASH);

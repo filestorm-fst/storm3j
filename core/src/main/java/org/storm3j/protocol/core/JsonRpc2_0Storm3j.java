@@ -90,7 +90,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstProtocolVersion> fstProtocolVersion() {
         return new Request<>(
-                "eth_protocolVersion",
+                "fst_protocolVersion",
                 Collections.<String>emptyList(),
                 storm3jService,
                 FstProtocolVersion.class);
@@ -99,43 +99,43 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstCoinbase> fstCoinbase() {
         return new Request<>(
-                "eth_coinbase", Collections.<String>emptyList(), storm3jService, FstCoinbase.class);
+                "fst_coinbase", Collections.<String>emptyList(), storm3jService, FstCoinbase.class);
     }
 
     @Override
     public Request<?, FstSyncing> fstSyncing() {
         return new Request<>(
-                "eth_syncing", Collections.<String>emptyList(), storm3jService, FstSyncing.class);
+                "fst_syncing", Collections.<String>emptyList(), storm3jService, FstSyncing.class);
     }
 
     @Override
     public Request<?, FstMining> fstMining() {
         return new Request<>(
-                "eth_mining", Collections.<String>emptyList(), storm3jService, FstMining.class);
+                "fst_mining", Collections.<String>emptyList(), storm3jService, FstMining.class);
     }
 
     @Override
     public Request<?, FstHashrate> fstHashrate() {
         return new Request<>(
-                "eth_hashrate", Collections.<String>emptyList(), storm3jService, FstHashrate.class);
+                "fst_hashrate", Collections.<String>emptyList(), storm3jService, FstHashrate.class);
     }
 
     @Override
     public Request<?, FstGasPrice> fstGasPrice() {
         return new Request<>(
-                "eth_gasPrice", Collections.<String>emptyList(), storm3jService, FstGasPrice.class);
+                "fst_gasPrice", Collections.<String>emptyList(), storm3jService, FstGasPrice.class);
     }
 
     @Override
     public Request<?, FstAccounts> fstAccounts() {
         return new Request<>(
-                "eth_accounts", Collections.<String>emptyList(), storm3jService, FstAccounts.class);
+                "fst_accounts", Collections.<String>emptyList(), storm3jService, FstAccounts.class);
     }
 
     @Override
     public Request<?, FstBlockNumber> fstBlockNumber() {
         return new Request<>(
-                "eth_blockNumber",
+                "fst_blockNumber",
                 Collections.<String>emptyList(),
                 storm3jService,
                 FstBlockNumber.class);
@@ -145,7 +145,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetBalance> fstGetBalance(
             String address, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_getBalance",
+                "fst_getBalance",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
                 storm3jService,
                 FstGetBalance.class);
@@ -155,7 +155,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetStorageAt> fstGetStorageAt(
             String address, BigInteger position, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_getStorageAt",
+                "fst_getStorageAt",
                 Arrays.asList(
                         address,
                         Numeric.encodeQuantity(position),
@@ -168,7 +168,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetTransactionCount> fstGetTransactionCount(
             String address, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_getTransactionCount",
+                "fst_getTransactionCount",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
                 storm3jService,
                 FstGetTransactionCount.class);
@@ -178,7 +178,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetBlockTransactionCountByHash> fstGetBlockTransactionCountByHash(
             String blockHash) {
         return new Request<>(
-                "eth_getBlockTransactionCountByHash",
+                "fst_getBlockTransactionCountByHash",
                 Arrays.asList(blockHash),
                 storm3jService,
                 FstGetBlockTransactionCountByHash.class);
@@ -188,7 +188,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetBlockTransactionCountByNumber> fstGetBlockTransactionCountByNumber(
             DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_getBlockTransactionCountByNumber",
+                "fst_getBlockTransactionCountByNumber",
                 Arrays.asList(defaultBlockParameter.getValue()),
                 storm3jService,
                 FstGetBlockTransactionCountByNumber.class);
@@ -197,7 +197,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstGetUncleCountByBlockHash> fstGetUncleCountByBlockHash(String blockHash) {
         return new Request<>(
-                "eth_getUncleCountByBlockHash",
+                "fst_getUncleCountByBlockHash",
                 Arrays.asList(blockHash),
                 storm3jService,
                 FstGetUncleCountByBlockHash.class);
@@ -207,7 +207,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetUncleCountByBlockNumber> fstGetUncleCountByBlockNumber(
             DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_getUncleCountByBlockNumber",
+                "fst_getUncleCountByBlockNumber",
                 Arrays.asList(defaultBlockParameter.getValue()),
                 storm3jService,
                 FstGetUncleCountByBlockNumber.class);
@@ -217,7 +217,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstGetCode> fstGetCode(
             String address, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_getCode",
+                "fst_getCode",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
                 storm3jService,
                 FstGetCode.class);
@@ -226,7 +226,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstSign> fstSign(String address, String sha3HashOfDataToSign) {
         return new Request<>(
-                "eth_sign",
+                "fst_sign",
                 Arrays.asList(address, sha3HashOfDataToSign),
                 storm3jService,
                 FstSign.class);
@@ -236,7 +236,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstSendTransaction>
     fstSendTransaction(Transaction transaction) {
         return new Request<>(
-                "eth_sendTransaction",
+                "fst_sendTransaction",
                 Arrays.asList(transaction),
                 storm3jService,
                 FstSendTransaction.class);
@@ -246,7 +246,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstSendTransaction>
     fstSendRawTransaction(String signedTransactionData) {
         return new Request<>(
-                "eth_sendRawTransaction",
+                "fst_sendRawTransaction",
                 Arrays.asList(signedTransactionData),
                 storm3jService,
                 FstSendTransaction.class);
@@ -256,7 +256,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstCall> fstCall(
             Transaction transaction, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
-                "eth_call",
+                "fst_call",
                 Arrays.asList(transaction, defaultBlockParameter),
                 storm3jService,
                 FstCall.class);
@@ -265,14 +265,14 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstEstimateGas> fstEstimateGas(Transaction transaction) {
         return new Request<>(
-                "eth_estimateGas", Arrays.asList(transaction), storm3jService, FstEstimateGas.class);
+                "fst_estimateGas", Arrays.asList(transaction), storm3jService, FstEstimateGas.class);
     }
 
     @Override
     public Request<?, FstBlock> fstGetBlockByHash(
             String blockHash, boolean returnFullTransactionObjects) {
         return new Request<>(
-                "eth_getBlockByHash",
+                "fst_getBlockByHash",
                 Arrays.asList(blockHash, returnFullTransactionObjects),
                 storm3jService,
                 FstBlock.class);
@@ -282,7 +282,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstBlock> fstGetBlockByNumber(
             DefaultBlockParameter defaultBlockParameter, boolean returnFullTransactionObjects) {
         return new Request<>(
-                "eth_getBlockByNumber",
+                "fst_getBlockByNumber",
                 Arrays.asList(defaultBlockParameter.getValue(), returnFullTransactionObjects),
                 storm3jService,
                 FstBlock.class);
@@ -291,7 +291,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstTransaction> fstGetTransactionByHash(String transactionHash) {
         return new Request<>(
-                "eth_getTransactionByHash",
+                "fst_getTransactionByHash",
                 Arrays.asList(transactionHash),
                 storm3jService,
                 FstTransaction.class);
@@ -301,7 +301,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstTransaction> fstGetTransactionByBlockHashAndIndex(
             String blockHash, BigInteger transactionIndex) {
         return new Request<>(
-                "eth_getTransactionByBlockHashAndIndex",
+                "fst_getTransactionByBlockHashAndIndex",
                 Arrays.asList(blockHash, Numeric.encodeQuantity(transactionIndex)),
                 storm3jService,
                 FstTransaction.class);
@@ -311,7 +311,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstTransaction> fstGetTransactionByBlockNumberAndIndex(
             DefaultBlockParameter defaultBlockParameter, BigInteger transactionIndex) {
         return new Request<>(
-                "eth_getTransactionByBlockNumberAndIndex",
+                "fst_getTransactionByBlockNumberAndIndex",
                 Arrays.asList(
                         defaultBlockParameter.getValue(), Numeric.encodeQuantity(transactionIndex)),
                 storm3jService,
@@ -321,7 +321,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstGetTransactionReceipt> fstGetTransactionReceipt(String transactionHash) {
         return new Request<>(
-                "eth_getTransactionReceipt",
+                "fst_getTransactionReceipt",
                 Arrays.asList(transactionHash),
                 storm3jService,
                 FstGetTransactionReceipt.class);
@@ -331,7 +331,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstBlock> fstGetUncleByBlockHashAndIndex(
             String blockHash, BigInteger transactionIndex) {
         return new Request<>(
-                "eth_getUncleByBlockHashAndIndex",
+                "fst_getUncleByBlockHashAndIndex",
                 Arrays.asList(blockHash, Numeric.encodeQuantity(transactionIndex)),
                 storm3jService,
                 FstBlock.class);
@@ -341,7 +341,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstBlock> fstGetUncleByBlockNumberAndIndex(
             DefaultBlockParameter defaultBlockParameter, BigInteger uncleIndex) {
         return new Request<>(
-                "eth_getUncleByBlockNumberAndIndex",
+                "fst_getUncleByBlockNumberAndIndex",
                 Arrays.asList(defaultBlockParameter.getValue(), Numeric.encodeQuantity(uncleIndex)),
                 storm3jService,
                 FstBlock.class);
@@ -350,7 +350,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstGetCompilers> fstGetCompilers() {
         return new Request<>(
-                "eth_getCompilers",
+                "fst_getCompilers",
                 Collections.<String>emptyList(),
                 storm3jService,
                 FstGetCompilers.class);
@@ -359,13 +359,13 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstCompileLLL> fstCompileLLL(String sourceCode) {
         return new Request<>(
-                "eth_compileLLL", Arrays.asList(sourceCode), storm3jService, FstCompileLLL.class);
+                "fst_compileLLL", Arrays.asList(sourceCode), storm3jService, FstCompileLLL.class);
     }
 
     @Override
     public Request<?, FstCompileSolidity> fstCompileSolidity(String sourceCode) {
         return new Request<>(
-                "eth_compileSolidity",
+                "fst_compileSolidity",
                 Arrays.asList(sourceCode),
                 storm3jService,
                 FstCompileSolidity.class);
@@ -374,7 +374,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstCompileSerpent> fstCompileSerpent(String sourceCode) {
         return new Request<>(
-                "eth_compileSerpent",
+                "fst_compileSerpent",
                 Arrays.asList(sourceCode),
                 storm3jService,
                 FstCompileSerpent.class);
@@ -384,13 +384,13 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Request<?, FstFilter> fstNewFilter(
             org.storm3j.protocol.core.methods.request.FstFilter fstFilter) {
         return new Request<>(
-                "eth_newFilter", Arrays.asList(fstFilter), storm3jService, FstFilter.class);
+                "fst_newFilter", Arrays.asList(fstFilter), storm3jService, FstFilter.class);
     }
 
     @Override
     public Request<?, FstFilter> fstNewBlockFilter() {
         return new Request<>(
-                "eth_newBlockFilter",
+                "fst_newBlockFilter",
                 Collections.<String>emptyList(),
                 storm3jService,
                 FstFilter.class);
@@ -399,7 +399,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstFilter> fstNewPendingTransactionFilter() {
         return new Request<>(
-                "eth_newPendingTransactionFilter",
+                "fst_newPendingTransactionFilter",
                 Collections.<String>emptyList(),
                 storm3jService,
                 FstFilter.class);
@@ -408,7 +408,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstUninstallFilter> fstUninstallFilter(BigInteger filterId) {
         return new Request<>(
-                "eth_uninstallFilter",
+                "fst_uninstallFilter",
                 Arrays.asList(Numeric.toHexStringWithPrefixSafe(filterId)),
                 storm3jService,
                 FstUninstallFilter.class);
@@ -417,7 +417,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstLog> fstGetFilterChanges(BigInteger filterId) {
         return new Request<>(
-                "eth_getFilterChanges",
+                "fst_getFilterChanges",
                 Arrays.asList(Numeric.toHexStringWithPrefixSafe(filterId)),
                 storm3jService,
                 FstLog.class);
@@ -426,7 +426,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstLog> fstGetFilterLogs(BigInteger filterId) {
         return new Request<>(
-                "eth_getFilterLogs",
+                "fst_getFilterLogs",
                 Arrays.asList(Numeric.toHexStringWithPrefixSafe(filterId)),
                 storm3jService,
                 FstLog.class);
@@ -435,20 +435,20 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstLog> fstGetLogs(
             org.storm3j.protocol.core.methods.request.FstFilter fstFilter) {
-        return new Request<>("eth_getLogs", Arrays.asList(fstFilter), storm3jService, FstLog.class);
+        return new Request<>("fst_getLogs", Arrays.asList(fstFilter), storm3jService, FstLog.class);
     }
 
     @Override
     public Request<?, FstGetWork> fstGetWork() {
         return new Request<>(
-                "eth_getWork", Collections.<String>emptyList(), storm3jService, FstGetWork.class);
+                "fst_getWork", Collections.<String>emptyList(), storm3jService, FstGetWork.class);
     }
 
     @Override
     public Request<?, FstSubmitWork> fstSubmitWork(
             String nonce, String headerPowHash, String mixDigest) {
         return new Request<>(
-                "eth_submitWork",
+                "fst_submitWork",
                 Arrays.asList(nonce, headerPowHash, mixDigest),
                 storm3jService,
                 FstSubmitWork.class);
@@ -457,7 +457,7 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     @Override
     public Request<?, FstSubmitHashrate> fstSubmitHashrate(String hashrate, String clientId) {
         return new Request<>(
-                "eth_submitHashrate",
+                "fst_submitHashrate",
                 Arrays.asList(hashrate, clientId),
                 storm3jService,
                 FstSubmitHashrate.class);
@@ -582,11 +582,11 @@ public class JsonRpc2_0Storm3j implements Storm3j {
     public Flowable<NewHeadsNotification> newHeadsNotifications() {
         return storm3jService.subscribe(
                 new Request<>(
-                        "eth_subscribe",
+                        "fst_subscribe",
                         Collections.singletonList("newHeads"),
                         storm3jService,
                         FstSubscribe.class),
-                "eth_unsubscribe",
+                "fst_unsubscribe",
                 NewHeadsNotification.class);
     }
 
@@ -598,11 +598,11 @@ public class JsonRpc2_0Storm3j implements Storm3j {
 
         return storm3jService.subscribe(
                 new Request<>(
-                        "eth_subscribe",
+                        "fst_subscribe",
                         Arrays.asList("logs", params),
                         storm3jService,
                         FstSubscribe.class),
-                "eth_unsubscribe",
+                "fst_unsubscribe",
                 LogNotification.class);
     }
 

@@ -15,7 +15,7 @@ package org.storm3j.protocol.besu;
 import java.util.List;
 import java.util.Map;
 
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3jService;
 import org.storm3j.protocol.admin.methods.response.BooleanResponse;
 import org.storm3j.protocol.besu.response.BesuEthAccountsMapResponse;
 import org.storm3j.protocol.besu.response.BesuFullDebugTraceResponse;
@@ -33,7 +33,7 @@ import org.storm3j.protocol.eea.Eea;
 import org.storm3j.utils.Base64String;
 
 public interface Besu extends Eea {
-    static Besu build(storm3jService storm3jService) {
+    static Besu build(Storm3jService storm3jService) {
         return new org.storm3j.protocol.besu.JsonRpc2_0Besu(storm3jService);
     }
 

@@ -17,20 +17,20 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.junit.Test;
 
-import org.storm3j.protocol.storm3j;
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3jService;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class JsonRpc2_0storm3jTest {
+public class JsonRpc2_0Storm3jTest {
 
     private ScheduledExecutorService scheduledExecutorService =
             mock(ScheduledExecutorService.class);
-    private storm3jService service = mock(storm3jService.class);
+    private Storm3jService service = mock(Storm3jService.class);
 
-    private storm3j storm3j = storm3j.build(service, 10, scheduledExecutorService);
+    private Storm3j storm3j = Storm3j.build(service, 10, scheduledExecutorService);
 
     @Test
     public void testStopExecutorOnShutdown() throws Exception {

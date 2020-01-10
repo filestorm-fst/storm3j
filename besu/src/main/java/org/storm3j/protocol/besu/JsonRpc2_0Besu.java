@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.storm3j.protocol.besu.Besu;
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3jService;
 import org.storm3j.protocol.admin.methods.response.BooleanResponse;
 import org.storm3j.protocol.besu.request.CreatePrivacyGroupRequest;
 import org.storm3j.protocol.besu.response.BesuEthAccountsMapResponse;
@@ -39,7 +39,7 @@ import org.storm3j.utils.Base64String;
 import static java.util.Objects.requireNonNull;
 
 public class JsonRpc2_0Besu extends JsonRpc2_0Eea implements Besu {
-    public JsonRpc2_0Besu(storm3jService storm3jService) {
+    public JsonRpc2_0Besu(Storm3jService storm3jService) {
         super(storm3jService);
     }
 

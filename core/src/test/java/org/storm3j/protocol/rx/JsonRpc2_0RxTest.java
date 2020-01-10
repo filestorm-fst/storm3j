@@ -29,8 +29,10 @@ import org.junit.Test;
 import org.mockito.stubbing.OngoingStubbing;
 
 import org.storm3j.protocol.ObjectMapperFactory;
-import org.storm3j.protocol.storm3j;
-import org.storm3j.protocol.storm3jService;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3jService;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3jService;
 import org.storm3j.protocol.core.DefaultBlockParameterNumber;
 import org.storm3j.protocol.core.Request;
 import org.storm3j.protocol.core.methods.response.*;
@@ -50,14 +52,14 @@ public class JsonRpc2_0RxTest {
 
     private final ObjectMapper objectMapper = ObjectMapperFactory.getObjectMapper();
 
-    private storm3j storm3j;
+    private Storm3j storm3j;
 
-    private storm3jService storm3jService;
+    private Storm3jService storm3jService;
 
     @Before
     public void setUp() {
-        storm3jService = mock(storm3jService.class);
-        storm3j = storm3j.build(storm3jService, 1000, Executors.newSingleThreadScheduledExecutor());
+        storm3jService = mock(Storm3jService.class);
+        storm3j = Storm3j.build(storm3jService, 1000, Executors.newSingleThreadScheduledExecutor());
     }
 
     @Test

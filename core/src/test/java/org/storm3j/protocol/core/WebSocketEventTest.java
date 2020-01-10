@@ -22,7 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.storm3j.protocol.ObjectMapperFactory;
-import org.storm3j.protocol.storm3j;
+import org.storm3j.protocol.Storm3j;
+import org.storm3j.protocol.Storm3j;
 import org.storm3j.protocol.websocket.WebSocketClient;
 import org.storm3j.protocol.websocket.WebSocketListener;
 import org.storm3j.protocol.websocket.WebSocketService;
@@ -41,7 +42,7 @@ public class WebSocketEventTest {
 
     private WebSocketService webSocketService = new WebSocketService(webSocketClient, true);
 
-    private storm3j storm3j = storm3j.build(webSocketService);
+    private Storm3j storm3j = Storm3j.build(webSocketService);
 
     private final ObjectMapper objectMapper = ObjectMapperFactory.getObjectMapper();
 

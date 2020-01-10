@@ -17,7 +17,7 @@ import org.storm3j.protocol.core.Response;
 /** web3_clientVersion. */
 public class Storm3ClientVersion extends Response<String> {
 
-    public String getWeb3ClientVersion() {
+    public String getStorm3ClientVersion() {
         return getResult();
     }
 }

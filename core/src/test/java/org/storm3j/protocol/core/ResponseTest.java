@@ -86,8 +86,8 @@ public class ResponseTest extends ResponseTester {
                         + "  \"result\": \"Mist/v0.9.3/darwin/go1.4.1\"\n"
                         + "}");
 
-        Web3ClientVersion web3ClientVersion = deserialiseResponse(Web3ClientVersion.class);
-        assertThat(web3ClientVersion.getWeb3ClientVersion(), is("Mist/v0.9.3/darwin/go1.4.1"));
+        Storm3ClientVersion web3ClientVersion = deserialiseResponse(Storm3ClientVersion.class);
+        assertThat(web3ClientVersion.getStorm3ClientVersion(), is("Mist/v0.9.3/darwin/go1.4.1"));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ResponseTest extends ResponseTester {
                         + "\"0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad\"\n"
                         + "}");
 
-        Web3Sha3 web3Sha3 = deserialiseResponse(Web3Sha3.class);
+        Storm3Sha3 web3Sha3 = deserialiseResponse(Storm3Sha3.class);
         assertThat(
                 web3Sha3.getResult(),
                 is("0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad"));

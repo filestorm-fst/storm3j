@@ -36,7 +36,7 @@ import org.reactivestreams.Subscription;
 import org.storm3j.protocol.core.Request;
 import org.storm3j.protocol.core.Response;
 import org.storm3j.protocol.core.methods.response.FstSubscribe;
-import org.storm3j.protocol.core.methods.response.Web3ClientVersion;
+import org.storm3j.protocol.core.methods.response.Storm3ClientVersion;
 import org.storm3j.protocol.websocket.events.NewHeadsNotification;
 
 import static org.junit.Assert.assertEquals;
@@ -60,12 +60,12 @@ public class WebSocketServiceTest {
 
     private WebSocketService service = new WebSocketService(webSocketClient, executorService, true);
 
-    private Request<?, Web3ClientVersion> request =
+    private Request<?, Storm3ClientVersion> request =
             new Request<>(
                     "web3_clientVersion",
                     Collections.<String>emptyList(),
                     service,
-                    Web3ClientVersion.class);
+                    Storm3ClientVersion.class);
 
     @Rule public ExpectedException thrown = ExpectedException.none();
     private Request<Object, FstSubscribe> subscribeRequest;
@@ -113,14 +113,14 @@ public class WebSocketServiceTest {
 
     @Test
     public void testWaitingForReplyToSentRequest() throws Exception {
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
 
         assertTrue(service.isWaitingForReply(request.getId()));
     }
 
     @Test
     public void testNoLongerWaitingForResponseAfterReply() throws Exception {
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
         sendGethVersionReply();
 
         assertFalse(service.isWaitingForReply(1));
@@ -128,7 +128,7 @@ public class WebSocketServiceTest {
 
     @Test
     public void testSendWebSocketRequest() throws Exception {
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
 
         verify(webSocketClient)
                 .send(
@@ -139,7 +139,7 @@ public class WebSocketServiceTest {
     public void testIgnoreInvalidReplies() throws Exception {
         thrown.expect(IOException.class);
         thrown.expectMessage("Failed to parse incoming WebSocket message");
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
         service.onWebSocketMessage("{");
     }
 
@@ -147,7 +147,7 @@ public class WebSocketServiceTest {
     public void testThrowExceptionIfIdHasInvalidType() throws Exception {
         thrown.expect(IOException.class);
         thrown.expectMessage("'id' expected to be long, but it is: 'true'");
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
         service.onWebSocketMessage("{\"id\":true}");
     }
 
@@ -155,7 +155,7 @@ public class WebSocketServiceTest {
     public void testThrowExceptionIfIdIsMissing() throws Exception {
         thrown.expect(IOException.class);
         thrown.expectMessage("Unknown message type");
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
         service.onWebSocketMessage("{}");
     }
 
@@ -163,29 +163,29 @@ public class WebSocketServiceTest {
     public void testThrowExceptionIfUnexpectedIdIsReceived() throws Exception {
         thrown.expect(IOException.class);
         thrown.expectMessage("Received reply for unexpected request id: 12345");
-        service.sendAsync(request, Web3ClientVersion.class);
+        service.sendAsync(request, Storm3ClientVersion.class);
         service.onWebSocketMessage(
                 "{\"jsonrpc\":\"2.0\",\"id\":12345,\"result\":\"geth-version\"}");
     }
 
     @Test
     public void testReceiveReply() throws Exception {
-        CompletableFuture<Web3ClientVersion> reply =
-                service.sendAsync(request, Web3ClientVersion.class);
+        CompletableFuture<Storm3ClientVersion> reply =
+                service.sendAsync(request, Storm3ClientVersion.class);
         sendGethVersionReply();
 
         assertTrue(reply.isDone());
-        assertEquals("geth-version", reply.get().getWeb3ClientVersion());
+        assertEquals("geth-version", reply.get().getStorm3ClientVersion());
     }
 
     @Test
     public void testReceiveError() throws Exception {
-        CompletableFuture<Web3ClientVersion> reply =
-                service.sendAsync(request, Web3ClientVersion.class);
+        CompletableFuture<Storm3ClientVersion> reply =
+                service.sendAsync(request, Storm3ClientVersion.class);
         sendErrorReply();
 
         assertTrue(reply.isDone());
-        Web3ClientVersion version = reply.get();
+        Storm3ClientVersion version = reply.get();
         assertTrue(version.hasError());
         assertEquals(new Response.Error(-1, "Error message"), version.getError());
     }
@@ -193,8 +193,8 @@ public class WebSocketServiceTest {
     @Test
     public void testCloseRequestWhenConnectionIsClosed() throws Exception {
         thrown.expect(ExecutionException.class);
-        CompletableFuture<Web3ClientVersion> reply =
-                service.sendAsync(request, Web3ClientVersion.class);
+        CompletableFuture<Storm3ClientVersion> reply =
+                service.sendAsync(request, Storm3ClientVersion.class);
         service.onWebSocketClose();
 
         assertTrue(reply.isDone());
@@ -214,8 +214,8 @@ public class WebSocketServiceTest {
                             return null;
                         });
 
-        CompletableFuture<Web3ClientVersion> reply =
-                service.sendAsync(request, Web3ClientVersion.class);
+        CompletableFuture<Storm3ClientVersion> reply =
+                service.sendAsync(request, Storm3ClientVersion.class);
 
         assertTrue(reply.isDone());
         reply.get();
@@ -245,9 +245,9 @@ public class WebSocketServiceTest {
                     }
                 });
 
-        Web3ClientVersion reply = service.send(request, Web3ClientVersion.class);
+        Storm3ClientVersion reply = service.send(request, Storm3ClientVersion.class);
 
-        assertEquals(reply.getWeb3ClientVersion(), "geth-version");
+        assertEquals(reply.getStorm3ClientVersion(), "geth-version");
     }
 
     @Test

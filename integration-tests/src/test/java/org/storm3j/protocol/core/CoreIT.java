@@ -48,7 +48,7 @@ public class CoreIT {
     @Test
     public void testWeb3ClientVersion() throws Exception {
         Storm3ClientVersion web3ClientVersion = storm3j.storm3ClientVersion().send();
-        String clientVersion = web3ClientVersion.getWeb3ClientVersion();
+        String clientVersion = web3ClientVersion.getStorm3ClientVersion();
         System.out.println("Fst client version: " + clientVersion);
         assertFalse(clientVersion.isEmpty());
     }

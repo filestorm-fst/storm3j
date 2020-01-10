@@ -180,7 +180,7 @@ public class WalletSendFunds extends WalletManager {
             } else {
                 console.printf(
                         "Connected successfully to client: %s%n",
-                        web3ClientVersion.getWeb3ClientVersion());
+                        web3ClientVersion.getStorm3ClientVersion());
                 return storm3j;
             }
         } catch (InterruptedException | ExecutionException e) {
